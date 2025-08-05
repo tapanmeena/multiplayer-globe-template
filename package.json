@@ -1,8 +1,8 @@
 {
-  "name": "multiplayer-globe-template",
-  "description": "Display website visitor locations in real-time using Durable Objects and PartyKit.",
+  "name": "tapanmeena.com",
+  "description": "Tapan Meena's personal website - showcasing global visitor connections in real-time.",
   "cloudflare": {
-    "label": "Multiplayer Globe App",
+    "label": "Tapan Meena's Personal Website",
     "products": [
       "Workers",
       "Durable Objects"
