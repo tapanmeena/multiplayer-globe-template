@@ -14,6 +14,20 @@ function App() {
   const canvasRef = useRef<HTMLCanvasElement>();
   // The number of markers we're currently displaying
   const [counter, setCounter] = useState(0);
+  
+  // Contact form state
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [formErrors, setFormErrors] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
   // A map of marker IDs to their positions
   // Note that we use a ref because the globe's `onRender` callback
   // is called on every animation frame, and we don't want to re-render
@@ -89,34 +103,167 @@ function App() {
     };
   }, []);
 
-  const skills = [
-    { name: "React", level: 90 },
-    { name: "TypeScript", level: 85 },
-    { name: "Node.js", level: 80 },
-    { name: "Cloudflare Workers", level: 75 },
-    { name: "JavaScript", level: 90 },
-    { name: "CSS/SCSS", level: 85 },
-    { name: "Python", level: 70 },
-    { name: "Docker", level: 65 },
+  // Form handling functions
+  const validateField = (name: string, value: string) => {
+    switch (name) {
+      case 'name':
+        return value.trim().length < 2 ? 'Name must be at least 2 characters' : '';
+      case 'email':
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return !emailRegex.test(value) ? 'Please enter a valid email address' : '';
+      case 'message':
+        return value.trim().length < 10 ? 'Message must be at least 10 characters' : '';
+      default:
+        return '';
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    
+    // Real-time validation
+    const error = validateField(name, value);
+    setFormErrors(prev => ({
+      ...prev,
+      [name]: error
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    try {
+      // Validate all fields
+      const errors = {
+        name: validateField('name', formData.name),
+        email: validateField('email', formData.email),
+        message: validateField('message', formData.message)
+      };
+
+      setFormErrors(errors);
+
+      // Check if there are any errors
+      if (Object.values(errors).some(error => error !== '')) {
+        throw new Error('Please fix the validation errors');
+      }
+
+      // Create professional email template
+      const subject = encodeURIComponent(`Portfolio Inquiry from ${formData.name}`);
+      const emailBody = `Hello Tapan,
+
+I found your portfolio website and would like to get in touch.
+
+Name: ${formData.name}
+Email: ${formData.email}
+
+Message:
+${formData.message}
+
+---
+This message was sent from your portfolio contact form at tapanmeena.com
+
+Best regards,
+${formData.name}`;
+
+      const body = encodeURIComponent(emailBody);
+      const mailtoLink = `mailto:tapanmeena1998@gmail.com?subject=${subject}&body=${body}`;
+      
+      // Try to open email client
+      window.open(mailtoLink, '_self');
+      
+      // Show success message after a short delay
+      setTimeout(() => {
+        setFormData({ name: '', email: '', message: '' });
+        setFormErrors({ name: '', email: '', message: '' });
+        setSubmitStatus('success');
+        
+        // Auto-clear success message after 10 seconds
+        setTimeout(() => {
+          setSubmitStatus('idle');
+        }, 10000);
+      }, 1000);
+      
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setSubmitStatus('error');
+      
+      // Auto-clear error message after 8 seconds
+      setTimeout(() => {
+        setSubmitStatus('idle');
+      }, 8000);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const skillCategories = [
+    {
+      category: "Cloud & Data Platforms",
+      icon: "☁️",
+      skills: [
+        { name: "Azure Data Factory", level: 95 },
+        { name: "Microsoft Fabric", level: 85 },
+        { name: "Azure Databricks", level: 90 },
+        { name: "Azure Blob Storage", level: 85 },
+      ]
+    },
+    {
+      category: "Analytics & BI",
+      icon: "📊",
+      skills: [
+        { name: "Power BI", level: 95 },
+        { name: "DAX", level: 85 },
+        { name: "Power Platform", level: 80 },
+      ]
+    },
+    {
+      category: "Programming & Databases",
+      icon: "💻",
+      skills: [
+        { name: "PySpark", level: 90 },
+        { name: "Python", level: 85 },
+        { name: "SQL Server", level: 90 },
+        { name: "T-SQL", level: 90 },
+      ]
+    },
+    {
+      category: "Data Engineering",
+      icon: "🔧",
+      skills: [
+        { name: "Delta Lake", level: 80 },
+      ]
+    }
   ];
 
   const projects = [
     {
-      title: "Real-time Globe Visualization",
-      description: "Interactive 3D globe showing live website visitors using Cloudflare Workers and Durable Objects.",
-      tech: ["React", "TypeScript", "Cloudflare Workers", "WebSockets"],
+      title: "Enterprise ETL Pipeline Platform",
+      description: "Designed scalable ETL pipelines using Azure Data Factory, processing 100M+ records from REST APIs and databases into Azure Data Lake.",
+      tech: ["Azure Data Factory", "Azure Databricks", "PySpark", "Azure SQL", "Delta Lake"],
       status: "Live",
     },
     {
-      title: "Serverless API Platform",
-      description: "High-performance API gateway built with edge computing for sub-50ms response times globally.",
-      tech: ["Node.js", "Cloudflare Workers", "PostgreSQL", "Redis"],
-      status: "In Development",
+      title: "Microsoft Fabric Analytics Solution",
+      description: "Built unified data workflows with Lakehouse architecture, enabling Direct Lake integration with Power BI for real-time analytics.",
+      tech: ["Microsoft Fabric", "Power BI", "OneLake", "Semantic Models", "Direct Lake"],
+      status: "Live",
     },
     {
-      title: "E-commerce Dashboard",
-      description: "Modern analytics dashboard for e-commerce platforms with real-time data visualization.",
-      tech: ["React", "D3.js", "Python", "FastAPI"],
+      title: "Power BI Enterprise Dashboards",
+      description: "Developed 200+ Power BI dashboards with advanced DAX, RLS, and performance tuning for 5,000+ enterprise stakeholders.",
+      tech: ["Power BI", "DAX", "Power Query", "RLS", "Custom Visuals"],
+      status: "Completed",
+    },
+    {
+      title: "Power Platform Automation Suite",
+      description: "Automated business workflows using Power Automate and Power Apps, reducing manual processes by 60% and improving efficiency.",
+      tech: ["Power Automate", "Power Apps", "SharePoint", "Teams", "Canvas Apps"],
       status: "Completed",
     },
   ];
@@ -144,17 +291,17 @@ function App() {
             <h1 className="hero-title">
               <span className="wave">👋</span> Hi, I'm <span className="highlight">Tapan Meena</span>
             </h1>
-            <p className="hero-subtitle">Full-Stack Developer & Cloud Architect</p>
+            <p className="hero-subtitle">Senior Data Engineer & Analytics Specialist</p>
             <p className="hero-description">
-              I craft scalable web applications and real-time experiences using modern technologies. Passionate about serverless architecture, edge
-              computing, and creating delightful user interfaces.
+              I design and build robust data platforms using Azure and Microsoft Fabric, creating scalable ETL pipelines that process millions of records daily. 
+              Specialized in Power BI analytics, Azure Databricks, and delivering data-driven insights that empower business decisions across enterprise organizations.
             </p>
             <div className="hero-cta">
               <a href="#projects" className="btn btn-primary">
-                View My Work
+                View My Data Projects
               </a>
               <a href="#contact" className="btn btn-secondary">
-                Get In Touch
+                Let's Connect
               </a>
             </div>
           </div>
@@ -179,26 +326,28 @@ function App() {
           <div className="about-content">
             <div className="about-text">
               <p>
-                With over 5 years of experience in full-stack development, I specialize in building high-performance web applications that scale. My
-                expertise spans from crafting pixel-perfect user interfaces to designing robust backend architectures.
+                With over 5 years of experience as a Senior Data Engineer at MAQ Software, I specialize in building and optimizing data platforms 
+                using Azure and Microsoft Fabric. My expertise spans designing scalable ETL pipelines with Azure Data Factory, performing advanced 
+                data transformations using Azure Databricks and PySpark, and creating enterprise-grade Power BI solutions.
               </p>
               <p>
-                I'm particularly passionate about modern web technologies, real-time applications, and the potential of edge computing to deliver
-                lightning-fast user experiences globally. When I'm not coding, you'll find me exploring new technologies or contributing to
-                open-source projects.
+                I'm passionate about the Microsoft ecosystem and have hands-on experience with the latest technologies including Microsoft Fabric's 
+                Lakehouse architecture, Direct Lake integration, and Power Platform automation. My work directly impacts business decisions for 
+                thousands of stakeholders through data-driven insights and automated workflows. I'm certified in Microsoft Fabric Analytics 
+                Engineer (DP-600) and Data Engineer (DP-700) technologies.
               </p>
               <div className="about-stats">
                 <div className="stat">
-                  <span className="stat-number">50+</span>
-                  <span className="stat-label">Projects Completed</span>
+                  <span className="stat-number">200+</span>
+                  <span className="stat-label">Power BI Dashboards</span>
                 </div>
                 <div className="stat">
                   <span className="stat-number">5+</span>
-                  <span className="stat-label">Years Experience</span>
+                  <span className="stat-label">Years at MAQ Software</span>
                 </div>
                 <div className="stat">
-                  <span className="stat-number">100%</span>
-                  <span className="stat-label">Client Satisfaction</span>
+                  <span className="stat-number">100M+</span>
+                  <span className="stat-label">Records Processed Daily</span>
                 </div>
               </div>
             </div>
@@ -210,15 +359,25 @@ function App() {
       <section id="skills" className="skills">
         <div className="container">
           <h2 className="section-title">Skills & Expertise</h2>
-          <div className="skills-grid">
-            {skills.map((skill, index) => (
-              <div key={skill.name} className="skill-item" style={{ animationDelay: `${index * 0.1}s` }}>
-                <div className="skill-info">
-                  <span className="skill-name">{skill.name}</span>
-                  <span className="skill-level">{skill.level}%</span>
+          <div className="skills-categories">
+            {skillCategories.map((category, categoryIndex) => (
+              <div key={category.category} className="skill-category" style={{ animationDelay: `${categoryIndex * 0.2}s` }}>
+                <div className="category-header">
+                  <span className="category-icon">{category.icon}</span>
+                  <h3 className="category-title">{category.category}</h3>
                 </div>
-                <div className="skill-bar">
-                  <div className="skill-progress" style={{ width: `${skill.level}%` }}></div>
+                <div className="category-skills">
+                  {category.skills.map((skill, skillIndex) => (
+                    <div key={skill.name} className="skill-item" style={{ animationDelay: `${(categoryIndex * 0.2) + (skillIndex * 0.1)}s` }}>
+                      <div className="skill-info">
+                        <span className="skill-name">{skill.name}</span>
+                        <span className="skill-level">{skill.level}%</span>
+                      </div>
+                      <div className="skill-bar">
+                        <div className="skill-progress" style={{ width: `${skill.level}%` }}></div>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             ))}
@@ -275,7 +434,7 @@ function App() {
               <div className="contact-methods">
                 <a href="mailto:tapanmeena1998@gmail.com" className="contact-method">
                   <span className="contact-icon">📧</span>
-                  hello@tapanmeena.com
+                  tapanmeena1998@gmail.com
                 </a>
                 <a href="https://linkedin.com/in/tapanmeena" className="contact-method">
                   <span className="contact-icon">💼</span>
@@ -285,27 +444,77 @@ function App() {
                   <span className="contact-icon">🐙</span>
                   GitHub
                 </a>
-                <a href="https://twitter.com/tapanmeena3" className="contact-method">
-                  <span className="contact-icon">🐦</span>
-                  Twitter
+                <a href="tel:+918050851286" className="contact-method">
+                  <span className="contact-icon">�</span>
+                  +91-8050851286
                 </a>
               </div>
             </div>
-            <form className="contact-form">
+            <form className="contact-form" onSubmit={handleSubmit}>
+              {submitStatus === 'success' && (
+                <div className="form-message success">
+                  <span className="message-icon">✅</span>
+                  Message sent successfully! Your email client should have opened with a pre-filled message. If not, you can email me directly at tapanmeena1998@gmail.com
+                </div>
+              )}
+              {submitStatus === 'error' && (
+                <div className="form-message error">
+                  <span className="message-icon">❌</span>
+                  Please check all fields are filled correctly and try again. You can also reach me directly at tapanmeena1998@gmail.com
+                </div>
+              )}
               <div className="form-group">
                 <label htmlFor="name">Name</label>
-                <input type="text" id="name" name="name" required />
+                <input 
+                  type="text" 
+                  id="name" 
+                  name="name" 
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  required 
+                  disabled={isSubmitting}
+                  className={formErrors.name ? 'error' : ''}
+                />
+                {formErrors.name && <span className="field-error">{formErrors.name}</span>}
               </div>
               <div className="form-group">
                 <label htmlFor="email">Email</label>
-                <input type="email" id="email" name="email" required />
+                <input 
+                  type="email" 
+                  id="email" 
+                  name="email" 
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  required 
+                  disabled={isSubmitting}
+                  className={formErrors.email ? 'error' : ''}
+                />
+                {formErrors.email && <span className="field-error">{formErrors.email}</span>}
               </div>
               <div className="form-group">
                 <label htmlFor="message">Message</label>
-                <textarea id="message" name="message" rows={5} required></textarea>
+                <textarea 
+                  id="message" 
+                  name="message" 
+                  rows={5} 
+                  value={formData.message}
+                  onChange={handleInputChange}
+                  required
+                  disabled={isSubmitting}
+                  className={formErrors.message ? 'error' : ''}
+                  placeholder="Tell me about your project, question, or just say hello..."
+                ></textarea>
+                {formErrors.message && <span className="field-error">{formErrors.message}</span>}
               </div>
-              <button type="submit" className="btn btn-primary">
-                Send Message
+              <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
+                {isSubmitting ? (
+                  <>
+                    <span className="loading-spinner-small"></span>
+                    Sending...
+                  </>
+                ) : (
+                  'Send Message'
+                )}
               </button>
             </form>
           </div>
@@ -341,16 +550,16 @@ function App() {
                   <h4>Connect</h4>
                   <a href="https://github.com/tapanmeena">GitHub</a>
                   <a href="https://linkedin.com/in/tapanmeena">LinkedIn</a>
-                  <a href="https://twitter.com/tapanmeena3">Twitter</a>
+                  <a href="tel:+918050851286">Phone</a>
                   <a href="mailto:tapanmeena1998@gmail.com">Email</a>
                 </div>
                 
                 <div className="footer-section">
-                  <h4>Fun Facts</h4>
-                  <p className="fun-fact">🚀 Lines of code written: ∞</p>
-                  <p className="fun-fact">☕ Coffee consumed: Dangerous levels</p>
-                  <p className="fun-fact">🐛 Bugs created: "Features"</p>
-                  <p className="fun-fact">💡 Ideas per minute: 42</p>
+                  <h4>Recent Achievements</h4>
+                  <p className="fun-fact">🏆 Champion of the Quarter (Dec 2024)</p>
+                  <p className="fun-fact">⭐ Rising Star Top 3 (Mar 2023)</p>
+                  <p className="fun-fact">� 200+ Power BI Dashboards</p>
+                  <p className="fun-fact">🎓 Microsoft Fabric Certified</p>
                 </div>
               </div>
             </div>
@@ -360,10 +569,10 @@ function App() {
             <div className="footer-bottom">
               <div className="footer-copyright">
                 <p>
-                  &copy; 2025 Tapan Meena - The Digital Mastermind 🎭
+                  &copy; 2025 Tapan Meena - Senior Data Engineer @ MAQ Software �
                   <br />
                   <span className="tech-stack">
-                    Powered by caffeine, curiosity & code
+                    IIT Dharwad Graduate | Microsoft Certified | 5+ Years Experience
                   </span>
                 </p>
               </div>
@@ -378,13 +587,19 @@ function App() {
                   <a href="https://workers.cloudflare.com/">Cloudflare Workers</a>,{" "}
                   <a href="https://cobe.vercel.app/">Cobe</a> &{" "}
                   <a href="https://partykit.io/">PartyKit</a>
+                  <br />
+                  Data Engineering powered by{" "}
+                  <a href="https://azure.microsoft.com/en-us/products/data-factory">Azure Data Factory</a>,{" "}
+                  <a href="https://azure.microsoft.com/en-us/products/databricks">Azure Databricks</a> &{" "}
+                  <a href="https://www.microsoft.com/en-us/microsoft-fabric">Microsoft Fabric</a>
                 </p>
               </div>
             </div>
             
             <div className="footer-easter-egg">
               <p>
-                🎯 You found the footer! Here's a secret: I debug with console.log() and I'm not ashamed.
+                🎯 You found the footer! Here's a secret: I optimize ETL pipelines with PySpark and I'm proud of it! 
+                Currently processing 100M+ records daily at MAQ Software. 🚀
               </p>
             </div>
           </div>

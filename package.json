@@ -1,8 +1,8 @@
 {
   "name": "tapanmeena.com",
-  "description": "Tapan Meena's personal website - showcasing global visitor connections in real-time.",
+  "description": "Tapan Meena's portfolio - Senior Data Engineer specializing in Azure Data Factory, Microsoft Fabric, and Power BI analytics.",
   "cloudflare": {
-    "label": "Tapan Meena's Personal Website",
+    "label": "Tapan Meena - Senior Data Engineer Portfolio",
     "products": [
       "Workers",
       "Durable Objects"

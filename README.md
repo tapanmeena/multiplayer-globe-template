@@ -1,8 +1,20 @@
-# Tapan Meena's Personal Website
+# Tapan Meena - Senior Data Engineer Portfolio
 
 [![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/tapanmeena/tapanmeena.com)
 
-![Tapan Meena's Personal Website](https://imagedelivery.net/wSMYJvS3Xw-n339CbDyDIA/43100bd9-8e11-4c20-cc00-3bec86253f00/public)
+![Tapan Meena's Portfolio Website](https://imagedelivery.net/wSMYJvS3Xw-n339CbDyDIA/43100bd9-8e11-4c20-cc00-3bec86253f00/public)
+
+## About This Portfolio
+
+This is the personal portfolio website of **Tapan Meena**, a Senior Data Engineer at MAQ Software with 5+ years of experience in Azure Data Factory, Microsoft Fabric, Power BI, and Azure Databricks. The portfolio showcases real-world data engineering projects, technical expertise, and professional achievements.
+
+### Professional Highlights
+- 🏢 **Senior Data Engineer** at MAQ Software (July 2020 - Present)
+- 🎓 **B.Tech Computer Science** from IIT Dharwad (2016-2020)
+- 🏆 **Champion of the Quarter Award** (Dec 2024)
+- 📊 **200+ Power BI Dashboards** developed for enterprise clients
+- 💾 **100M+ Records** processed daily through scalable ETL pipelines
+- 🎯 **Microsoft Certified** in Fabric Analytics (DP-600) & Data Engineering (DP-700)
 
 <!-- dash-content-start -->
 
