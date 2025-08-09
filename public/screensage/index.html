@@ -34,12 +34,12 @@
 <body>
     <main>
         <!-- Hero -->
-    <section class="hero hero-centered">
+        <section class="hero hero-centered">
             <div class="container hero-inner">
-        <div class="hero-text center">
-            <div class="kicker">Built for focused interviews 🤝</div>
+                <div class="hero-text center">
+                    <div class="kicker">Built for focused interviews 🤝</div>
                     <div class="badge">Private by default · macOS 13+ · Apple Vision OCR</div>
-            <h1 class="hero-title">The <span class="hl">private AI overlay</span> for interview focus</h1>
+                    <h1 class="hero-title">The <span class="hl">private AI overlay</span> for interview focus</h1>
                     <p class="subtitle">Zero‑noise guidance for coding and system design interviews. It reads the text
                         you already see and returns short, structured suggestions you can act on fast.</p>
                     <div class="cta">
@@ -174,7 +174,8 @@ def level_order(root):
                     </div>
                     <div class="subpanel">
                         <h4 class="mini-title">Privacy</h4>
-                        <p class="muted">OCR runs locally. Only extracted text goes to your Azure OpenAI endpoint. Verify screen‑share exclusions with your tools and policies.</p>
+                        <p class="muted">OCR runs locally. Only extracted text goes to your Azure OpenAI endpoint.
+                            Verify screen‑share exclusions with your tools and policies.</p>
                     </div>
                 </div>
             </div>
@@ -222,15 +223,37 @@ def level_order(root):
 
     <footer class="footer">
         <div class="container footer-inner">
-            <div class="made-by">
-                <a href="/">← Back to tapanmeena.com</a>
-            </div>
             <div class="legal">
-                <small>© 2025 Tapan Meena. ScreenSage uses Apple&apos;s Screen Recording API. Use responsibly and comply with
+                <small>© 2025 Tapan Meena. ScreenSage uses Apple&apos;s Screen Recording API. Use responsibly and comply
+                    with
                     local laws and policies.</small>
             </div>
         </div>
     </footer>
+
+    <!-- Interactive pointer ring -->
+    <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+    <script>
+        (function () {
+            const ring = document.getElementById('cursorRing');
+            if (!ring) return;
+            let rafId = 0; let x = 0, y = 0; let tx = 0, ty = 0;
+            const lerp = (a, b, t) => a + (b - a) * t;
+            const hoverSelector = 'a, button, summary, .btn, .tile, .highlight-grid .tile, .timeline .step, .panel, .cta-inner .btn, details, input, select, textarea, label';
+            const move = (e) => { x = e.clientX; y = e.clientY; if (!rafId) loop(); };
+            const loop = () => {
+                tx = lerp(tx, x, 0.25); ty = lerp(ty, y, 0.25);
+                ring.style.transform = `translate(${tx - 0}px, ${ty - 0}px) translate(-50%, -50%)`;
+                const el = document.elementFromPoint(x, y);
+                if (el && el.closest(hoverSelector)) { ring.classList.add('is-hover'); } else { ring.classList.remove('is-hover'); }
+                rafId = requestAnimationFrame(loop);
+                if (Math.abs(tx - x) < 0.1 && Math.abs(ty - y) < 0.1) { cancelAnimationFrame(rafId); rafId = 0; }
+            };
+            document.addEventListener('mousemove', move, { passive: true });
+            document.addEventListener('mousedown', () => ring.classList.add('is-down'));
+            document.addEventListener('mouseup', () => ring.classList.remove('is-down'));
+        })();
+    </script>
 </body>
 
 </html>
