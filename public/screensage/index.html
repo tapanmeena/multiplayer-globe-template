@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=   1.0, shrink-to-fit=no" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>ScreenSage — Private AI overlay for technical interviews (macOS)</title>
+    <link rel="icon" href="https://imagedelivery.net/wSMYJvS3Xw-n339CbDyDIA/5ca0ca32-e897-4699-d4c1-6b680512f000/public"
+        sizes="any" />
+
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="ScreenSage — Private AI overlay for technical interviews (macOS)" />
+    <meta name="description"
+        content="ScreenSage is a private, always‑on‑top overlay that turns the text on your screen into concise, interview‑ready guidance with AI. macOS + Apple Vision OCR + Azure OpenAI." />
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="ScreenSage — Private AI overlay for technical interviews (macOS)" />
+    <meta property="og:description"
+        content="A discreet overlay that turns visible screen text into short, interview‑ready suggestions. Private by default." />
+    <meta property="og:image"
+        content="https://imagedelivery.net/wSMYJvS3Xw-n339CbDyDIA/43100bd9-8e11-4c20-cc00-3bec86253f00/public" />
+    <meta property="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="/normalize.css" />
+    <link rel="stylesheet" href="/screensage/styles.css" />
+</head>
+
+<body>
+    <main>
+        <!-- Hero -->
+        <section class="hero">
+            <div class="container hero-inner">
+                <div class="hero-text">
+                    <h1>ScreenSage — Private AI overlay for interviews</h1>
+                    <p class="subtitle">Zero‑noise guidance for coding and system design interviews. It reads the text
+                        you already see and returns short, structured suggestions you can act on fast.</p>
+                    <div class="cta">
+                        <a class="btn btn-primary"
+                            href="mailto:tapanmeena1998@gmail.com?subject=ScreenSage%20Early%20Access&body=Hi%20Tapan%2C%0A%0AI%27d%20like%20to%20request%20early%20access%20to%20ScreenSage%20for%20macOS.%0A%0AUse%20case%3A%20%0ATimeline%3A%20%0A%0AThank%20you!">Request
+                            access</a>
+                        <a class="btn btn-ghost" href="#how">See how it works</a>
+                    </div>
+                    <p class="micro muted">Designed to stay out of shared windows. You control the endpoint, key, and
+                        usage.</p>
+                </div>
+                <div class="hero-media">
+                    <div class="window">
+                        <div class="window-bar">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                            <span class="title">ScreenSage Overlay</span>
+                        </div>
+                        <div class="window-body">
+                            <pre><code>Problem Statement
+You are given a binary tree, return its level order traversal.
+
+My thoughts
+- Use BFS with a queue
+- Track levels by queue length
+
+Pseudocode
+queue = [root]
+while queue:
+  for i in range(len(queue)):
+    node = queue.pop(0)
+    push node.val
+    push children
+
+Solution (Python)
+# BFS level order traversal
+# Time: O(n), Space: O(n)
+from collections import deque
+
+def level_order(root):
+    if not root: return []
+    res, q = [], deque([root])
+    while q:
+        level = []
+        for _ in range(len(q)):
+            n = q.popleft()
+            level.append(n.val)  # capture value
+            if n.left: q.append(n.left)
+            if n.right: q.append(n.right)
+        res.append(level)
+    return res</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Highlights -->
+        <section class="highlights">
+            <div class="container highlight-grid">
+                <div class="tile">
+                    <h3>Answer like a pro</h3>
+                    <p>Clear, interview‑ready structure: Problem → Thoughts → Pseudocode → Solution → Complexity.</p>
+                </div>
+                <div class="tile">
+                    <h3>Language‑aware</h3>
+                    <p>Choose Auto, Python, JS/TS, Swift, Java, C++, C#, Go, Rust, SQL and more.</p>
+                </div>
+                <div class="tile">
+                    <h3>Private by default</h3>
+                    <p>OCR runs locally on your Mac. Only extracted text goes to your Azure OpenAI deployment.</p>
+                </div>
+                <div class="tile">
+                    <h3>Stays out of shares</h3>
+                    <p>Borderless overlay designed to avoid typical screen‑sharing capture. Verify in your setup.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- How it works -->
+        <section class="how" id="how">
+            <div class="container grid-3">
+                <div class="step">
+                    <span class="step-num">1</span>
+                    <h4>Capture</h4>
+                    <p>Reads visible on‑screen text using Screen Recording API + Vision OCR at your chosen interval.</p>
+                </div>
+                <div class="step">
+                    <span class="step-num">2</span>
+                    <h4>Think</h4>
+                    <p>Sends OCR text to your Azure OpenAI deployment and returns concise, interview‑ready suggestions.
+                    </p>
+                </div>
+                <div class="step">
+                    <span class="step-num">3</span>
+                    <h4>Show</h4>
+                    <p>Renders results as Markdown (including code) in an overlay kept out of typical screen shares.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Details -->
+        <section class="details">
+            <div class="container">
+                <h3>Key Features</h3>
+                <ul class="checklist">
+                    <li>Structured output: Problem → Thoughts → Pseudocode → Solution → Complexity</li>
+                    <li>Language preference: Auto, Python, JS/TS, Swift, Java, C++, C#, Go, Rust, SQL…</li>
+                    <li>Live OCR via Apple Vision; configurable interval</li>
+                    <li>Integrated Preferences: Connection, Capture, Appearance, Regions, Hotkeys</li>
+                    <li>Global hotkeys (works even when unfocused)</li>
+                    <li>Movable overlay + Follow Cursor (adjustable X/Y offsets)</li>
+                    <li>Save and reuse capture regions</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- FAQ -->
+        <section class="faq" id="faq">
+            <div class="container">
+                <h2>FAQ</h2>
+                <details>
+                    <summary>Does it record or send my screen?</summary>
+                    <p>No. OCR runs locally via Apple Vision. Only extracted text is sent to your configured Azure
+                        OpenAI endpoint.</p>
+                </details>
+                <details>
+                    <summary>Will the overlay appear in screen shares?</summary>
+                    <p>Designed to avoid typical screen‑sharing captures, but always verify with your tools and
+                        policies.</p>
+                </details>
+                <details>
+                    <summary>What models are supported?</summary>
+                    <p>Any Azure OpenAI chat‑completions deployment (e.g., GPT‑4o family). You control your endpoint and
+                        key.</p>
+                </details>
+            </div>
+        </section>
+
+        <!-- Access / CTA -->
+        <section class="cta" id="download">
+            <div class="container cta-inner">
+                <div>
+                    <h2>Request access</h2>
+                    <p class="muted">ScreenSage is in limited release. No public downloads yet.</p>
+                </div>
+                <div class="cta-actions">
+                    <a class="btn btn-primary"
+                        href="mailto:tapanmeena1998@gmail.com?subject=ScreenSage%20Early%20Access&body=Hi%20Tapan%2C%0A%0AI%27d%20like%20to%20request%20early%20access%20to%20ScreenSage%20for%20macOS.%0A%0AUse%20case%3A%20%0ATimeline%3A%20%0A%0AThank%20you!">Email
+                        to request access</a>
+                    <a class="btn btn-outline" href="mailto:tapanmeena1998@gmail.com?subject=ScreenSage%20Question">Ask
+                        a question</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container footer-inner">
+            <div class="made-by">
+                <a href="/">← Back to tapanmeena.com</a>
+            </div>
+            <div class="legal">
+                <small>© 2025 Tapan Meena. ScreenSage uses Apple&apos;s Screen Recording API. Use responsibly and comply with
+                    local laws and policies.</small>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
