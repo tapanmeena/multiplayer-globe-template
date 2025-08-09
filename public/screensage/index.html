@@ -100,18 +100,22 @@ def level_order(root):
         <section class="highlights">
             <div class="container highlight-grid">
                 <div class="tile">
+                    <span class="tile-icon" aria-hidden>🎯</span>
                     <h3>Answer like a pro</h3>
                     <p>Clear, interview‑ready structure: Problem → Thoughts → Pseudocode → Solution → Complexity.</p>
                 </div>
                 <div class="tile">
+                    <span class="tile-icon" aria-hidden>🧠</span>
                     <h3>Language‑aware</h3>
                     <p>Choose Auto, Python, JS/TS, Swift, Java, C++, C#, Go, Rust, SQL and more.</p>
                 </div>
                 <div class="tile">
+                    <span class="tile-icon" aria-hidden>🔒</span>
                     <h3>Private by default</h3>
                     <p>OCR runs locally on your Mac. Only extracted text goes to your Azure OpenAI deployment.</p>
                 </div>
                 <div class="tile">
+                    <span class="tile-icon" aria-hidden>🪟</span>
                     <h3>Stays out of shares</h3>
                     <p>Borderless overlay designed to avoid typical screen‑sharing capture. Verify in your setup.</p>
                 </div>
@@ -120,20 +124,23 @@ def level_order(root):
 
         <!-- How it works -->
         <section class="how" id="how">
-            <div class="container grid-3">
+            <div class="container grid-3 timeline">
                 <div class="step">
                     <span class="step-num">1</span>
+                    <span class="step-icon" aria-hidden>🔎</span>
                     <h4>Capture</h4>
                     <p>Reads visible on‑screen text using Screen Recording API + Vision OCR at your chosen interval.</p>
                 </div>
                 <div class="step">
                     <span class="step-num">2</span>
+                    <span class="step-icon" aria-hidden>🤖</span>
                     <h4>Think</h4>
                     <p>Sends OCR text to your Azure OpenAI deployment and returns concise, interview‑ready suggestions.
                     </p>
                 </div>
                 <div class="step">
                     <span class="step-num">3</span>
+                    <span class="step-icon" aria-hidden>🪄</span>
                     <h4>Show</h4>
                     <p>Renders results as Markdown (including code) in an overlay kept out of typical screen shares.</p>
                 </div>
@@ -142,17 +149,32 @@ def level_order(root):
 
         <!-- Details -->
         <section class="details">
-            <div class="container">
-                <h3>Key Features</h3>
-                <ul class="checklist">
-                    <li>Structured output: Problem → Thoughts → Pseudocode → Solution → Complexity</li>
-                    <li>Language preference: Auto, Python, JS/TS, Swift, Java, C++, C#, Go, Rust, SQL…</li>
-                    <li>Live OCR via Apple Vision; configurable interval</li>
-                    <li>Integrated Preferences: Connection, Capture, Appearance, Regions, Hotkeys</li>
-                    <li>Global hotkeys (works even when unfocused)</li>
-                    <li>Movable overlay + Follow Cursor (adjustable X/Y offsets)</li>
-                    <li>Save and reuse capture regions</li>
-                </ul>
+            <div class="container two-col">
+                <div class="panel">
+                    <h3>Key Features</h3>
+                    <ul class="checklist">
+                        <li>Structured output: Problem → Thoughts → Pseudocode → Solution → Complexity</li>
+                        <li>Language preference: Auto, Python, JS/TS, Swift, Java, C++, C#, Go, Rust, SQL…</li>
+                        <li>Live OCR via Apple Vision; configurable interval</li>
+                        <li>Integrated Preferences: Connection, Capture, Appearance, Regions, Hotkeys</li>
+                        <li>Global hotkeys (works even when unfocused)</li>
+                        <li>Movable overlay + Follow Cursor (adjustable X/Y offsets)</li>
+                        <li>Save and reuse capture regions</li>
+                    </ul>
+                </div>
+                <div class="panel">
+                    <div class="subpanel">
+                        <h4 class="mini-title">Requirements</h4>
+                        <ul class="bullets">
+                            <li>macOS 13+</li>
+                            <li>Azure OpenAI (endpoint, deployment, API key)</li>
+                        </ul>
+                    </div>
+                    <div class="subpanel">
+                        <h4 class="mini-title">Privacy</h4>
+                        <p class="muted">OCR runs locally. Only extracted text goes to your Azure OpenAI endpoint. Verify screen‑share exclusions with your tools and policies.</p>
+                    </div>
+                </div>
             </div>
         </section>
 
